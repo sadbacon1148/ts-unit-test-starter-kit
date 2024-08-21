@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #run on docker image on github
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,11 +36,13 @@ jobs:
       - name: Build
         run: npm run build
       # Begin automated tests
+      - name: test
+        run: npm run test
       # End automated tests
-  deploy:
+  deploy:       #dont deploy until the test past
     needs: test
     environment:
-      name: github-pages
+      name: github-pages  #you can use aws in the real world case. This is where you app deploys
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
